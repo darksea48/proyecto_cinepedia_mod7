@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Cinepedia{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>¡Bienvenido a Cinepedia! Acá encontrarás tus pelis</h1>
+    <table class="table table-sm table-hover table-bordered table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Director</th>
+                <th>Fecha de estreno</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pelicula in peliculas %}
+            <tr>
+                <td>{{ pelicula.nombre }}</td>
+                <td>{{ pelicula.director }}</td>
+                <td>{{ pelicula.fecha_estreno }}</td>
+                <td>
+                     <a href="{% url 'pelicula_detail' pelicula.pk %}" class="btn btn-sm btn-info">Ver</a>
+                    {% if pelicula.publicado_por == request.user %}
+                        <a href="{% url 'pelicula_update' pelicula.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="{% url 'pelicula_delete' pelicula.pk %}" class="btn btn-sm btn-danger delete-btn" data-pelicula-id="{{ pelicula.pk }}">Eliminar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">¡No hay películas registradas! <a href="{% url 'pelicula_create' %}">Crea una nueva película</a> para comenzar. </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+{% endblock %}

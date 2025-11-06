@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if pelicula %}Editar Película: {{ pelicula.title }}{% else %}Crear Nueva Película{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-success text-white">
+        {% if pelicula %}
+            Editar Película: {{ pelicula.nombre }}
+        {% else %}
+            Crear Nueva Película
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-2">{% if pelicula %}Guardar Cambios{% else %}Crear Película{% endif %}</button>
+            <a href="{% url 'pelicula_list' %}" class="btn btn-danger mt-2">Regresar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
